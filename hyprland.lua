@@ -9,10 +9,6 @@ hl.on("hyprland.start", function()
 end)
 -- DMS_STARTUP_END
 
-hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
-hl.env("QT_QPA_PLATFORMTHEME_QT6", "gtk3")
-
 hl.config({
     xwayland = { force_zero_scaling = true },
     input = {
@@ -26,10 +22,10 @@ hl.config({
         },
     },
     general = {
-        border_size = 2,
         layout = "dwindle",
     },
     decoration = {
+        -- Configure the gaps, border sizes and rounding through DMS settings.
         active_opacity = 0.75,
         inactive_opacity = 0.7,
         shadow = {
@@ -54,9 +50,6 @@ hl.config({
         preserve_split = true,
         force_split = 2,
     },
-    master = {
-        mfact = 0.5,
-    },
 })
 
 -- Assing workspaces 1-5 to monitor DP-1 and workspaces 6-10 to monitor DP-2
@@ -75,6 +68,11 @@ hl.animation({ leaf = "workspaces", enabled = true, speed = 5, bezier = "default
 hl.animation({ leaf = "windowsMove", enabled = true, speed = 4, bezier = "default" })
 hl.animation({ leaf = "fade", enabled = true, speed = 3, bezier = "default" })
 hl.animation({ leaf = "border", enabled = true, speed = 3, bezier = "default" })
+
+-- Environment variables
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")
+hl.env("QT_QPA_PLATFORMTHEME_QT6", "gtk3")
 
 -- DMS
 hl.layer_rule({ match = { namespace = "^(quickshell)$" }, no_anim = true })
