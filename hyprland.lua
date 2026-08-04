@@ -8,6 +8,7 @@ hl.config({
     xwayland = { force_zero_scaling = true },
     input = {
         kb_layout = "de",
+        kb_options = "ctrl:nocaps",
         numlock_by_default = true,
         follow_mouse = 1,
         accel_profile = "flat",
