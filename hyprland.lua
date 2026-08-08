@@ -1,6 +1,6 @@
 hl.on("hyprland.start", function()
-    hl.exec_cmd("dbus-update-activation-environment --systemd --all")
-    hl.exec_cmd("systemctl --user start hyprland-session.target")
+    hl.exec_cmd("awww-daemon")
+    hl.exec_cmd("[workspace 10 silent] ghostty -e quickshell")
 end)
 
 hl.config({
@@ -47,12 +47,28 @@ hl.config({
     },
 })
 
--- Assing workspaces 1-5 to monitor DP-1 and workspaces 6-10 to monitor DP-2
+-- Query monitors registered by Hyprland
+local handle = io.popen("hyprctl monitors all")
+local monitors_output = handle:read("*a")
+handle:close()
+
+-- Escape the '-' character with '%' for Lua pattern matching
+local has_dp1 = string.find(monitors_output, "DP%-1")
+local has_dp2 = string.find(monitors_output, "DP%-2")
+local has_edp1 = string.find(monitors_output, "eDP%-1")
+
 for i = 1, 10 do
-    if i <= 5 then
-        hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1" })
-    else
-        hl.workspace_rule({ workspace = tostring(i), monitor = "DP-2" })
+    if has_dp1 and has_dp2 then
+        if i <= 5 then
+            local is_default = (i == 1)
+            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1", default = is_default })
+        else
+            local is_default = (i == 6)
+            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-2", default = is_default })
+        end
+    elseif has_edp1 then
+        local is_default = (i == 1)
+        hl.workspace_rule({ workspace = tostring(i), monitor = "eDP-1", default = is_default })
     end
 end
 

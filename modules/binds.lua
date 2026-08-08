@@ -1,7 +1,7 @@
 -- === Application Launchers ===
 hl.bind("SUPER + RETURN", hl.dsp.exec_cmd("ghostty"))
 hl.bind("SUPER + B", hl.dsp.exec_cmd("firefox"))
-hl.bind("SUPER + E", hl.dsp.exec_cmd("dolphin"))
+hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus -w"))
 
 -- App launcher / run dialog
 -- Requires a launcher such as rofi, wofi, or fuzzel to be installed.
@@ -168,3 +168,4 @@ hl.bind("ALT + Print", hl.dsp.exec_cmd(
 
 -- === System Controls ===
 hl.bind("SUPER + SHIFT + P", hl.dsp.dpms({ action = "toggle" }))
+hl.bind("SUPER + SHIFT + CTRL + Q", hl.dsp.exec_cmd("hyprshutdown"))

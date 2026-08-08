@@ -25,3 +25,17 @@ hl.window_rule({ match = { class = "org.prismlauncher.PrismLauncher" }, workspac
 
 -- === Misc ===
 hl.window_rule({ match = { class = "^(steam)$", title = "^(notificationtoasts)" }, no_focus = true, pin = true })
+
+-- === XWayland Video Bridge ===
+hl.window_rule({
+    match = {
+        class = "^(xwaylandvideobridge)$"
+    },
+    opacity = "0.0 override",
+    no_anim = true,
+    no_blur = true,
+    no_focus = true,
+    no_initial_focus = true,
+    max_size = { 1, 1 },
+    workspace = "special:videobridge silent"
+})
