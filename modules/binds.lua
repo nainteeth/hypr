@@ -5,8 +5,8 @@ hl.bind("SUPER + E", hl.dsp.exec_cmd("nautilus -w"))
 
 -- App launcher / run dialog
 -- Requires a launcher such as rofi, wofi, or fuzzel to be installed.
-hl.bind("SUPER + space", hl.dsp.exec_cmd("rofi -show drun"))
-hl.bind("ALT + space", hl.dsp.exec_cmd("rofi -show run"))
+hl.bind("SUPER + SHIFT + space", hl.dsp.exec_cmd("rofi -show drun"))
+hl.bind("SUPER + space", hl.dsp.exec_cmd("qs ipc call launcher toggle"))
 
 -- Clipboard history
 -- Requires cliphist + rofi/wofi + wl-clipboard.

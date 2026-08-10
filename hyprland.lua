@@ -1,6 +1,8 @@
 hl.on("hyprland.start", function()
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("[workspace 10 silent] ghostty -e quickshell")
+    hl.exec_cmd("[workspace 1 silent] zed")
+    hl.exec_cmd("[workspace 2 silent] firefox")
 end)
 
 hl.config({
@@ -47,28 +49,30 @@ hl.config({
     },
 })
 
--- Query monitors registered by Hyprland
-local handle = io.popen("hyprctl monitors all")
-local monitors_output = handle:read("*a")
-handle:close()
+local function is_connected(monitor_name)
+    local cmd = "grep -l '^connected$' /sys/class/drm/*" .. monitor_name .. "/status 2>/dev/null"
+    local handle = io.popen(cmd)
+    if handle then
+        local output = handle:read("*a")
+        handle:close()
+        return output ~= nil and output ~= ""
+    end
+    return false
+end
 
--- Escape the '-' character with '%' for Lua pattern matching
-local has_dp1 = string.find(monitors_output, "DP%-1")
-local has_dp2 = string.find(monitors_output, "DP%-2")
-local has_edp1 = string.find(monitors_output, "eDP%-1")
+local has_dp1 = is_connected("DP-1")
+local has_dp2 = is_connected("DP-2")
+local has_edp1 = is_connected("eDP-1")
 
 for i = 1, 10 do
     if has_dp1 and has_dp2 then
         if i <= 5 then
-            local is_default = (i == 1)
-            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1", default = is_default })
+            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-1", default = (i == 1) })
         else
-            local is_default = (i == 6)
-            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-2", default = is_default })
+            hl.workspace_rule({ workspace = tostring(i), monitor = "DP-2", default = (i == 6) })
         end
     elseif has_edp1 then
-        local is_default = (i == 1)
-        hl.workspace_rule({ workspace = tostring(i), monitor = "eDP-1", default = is_default })
+        hl.workspace_rule({ workspace = tostring(i), monitor = "eDP-1", default = (i == 1) })
     end
 end
 
